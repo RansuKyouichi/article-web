@@ -52,6 +52,32 @@
                         Contact
                     </a>
                 </li>
+
+
+                @guest
+                    <li class="nav-item">
+                        <a href="{{ route('portal.auth.login') }}"
+                        class="btn btn-accent nav-cta">
+                            Sign Up
+                        </a>
+                    </li>
+                @endguest
+
+                @auth
+                    <li class="nav-item">
+                        <span class="nav-link">
+                            Hello, {{ auth()->user()->name }}
+                        </span>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="{{ url('/user') }}"
+                        class="btn btn-dark nav-cta">
+                            User Portal
+                        </a>
+                    </li>
+                @endauth
+
             </ul>
         </div>
 
