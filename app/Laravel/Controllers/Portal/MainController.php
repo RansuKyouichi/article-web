@@ -11,7 +11,28 @@ class MainController extends Controller{
     }
 
     public function index(PageRequest $request){
-        echo 1;
+        $this->data['page_title'] = 'Dashboard | AMS User Portal';
+        return view('portal.dashboard', $this->data);
+    }
+
+    public function cmsHome(PageRequest $request){
+        $this->data['page_title'] = 'CMS Home | AMS';
+        return view('portal.cms.home', $this->data);
+    }
+
+    public function cmsAbout(PageRequest $request){
+        $this->data['page_title'] = 'CMS About | AMS';
+        return view('portal.cms.about', $this->data);
+    }
+
+    public function cmsArticles(PageRequest $request){
+        $this->data['page_title'] = 'CMS Articles | AMS';
+        return view('portal.cms.articles', $this->data);
+    }
+
+    public function cmsContact(PageRequest $request){
+        $this->data['page_title'] = 'CMS Contact | AMS';
+        return view('portal.cms.contact', $this->data);
     }
 
 }

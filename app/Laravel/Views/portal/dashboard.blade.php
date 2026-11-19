@@ -1,41 +1,62 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome – Laravel 12 App</title>
-    <!-- Bootstrap CSS via CDN (you can bundle locally if preferred) -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light min-vh-100 d-flex flex-column">
-<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
-    <div class="container">
-        <a class="navbar-brand fw-bold text-primary" href="#">Laravel 12</a>
-        <span class="navbar-text text-muted">
-                A Modern PHP Framework
-            </span>
-    </div>
-</nav>
-<main class="flex-fill d-flex align-items-center justify-content-center">
-    <div class="container text-center py-5">
-        <h1 class="display-4 fw-bold mb-3 text-dark">Welcome to Your Laravel 12 Application</h1>
-        <p class="lead text-secondary mb-4">
-            You're running Laravel 12 with a custom structure and modern tooling.
+@extends('portal._layouts.main')
+
+@section('contents')
+
+<div class="container-fluid">
+
+    <div class="mb-4">
+        <h3 class="fw-bold mb-1">Dashboard</h3>
+        <p class="text-muted mb-0">
+            Welcome back, "name"!
         </p>
-        <div class="d-flex justify-content-center gap-2">
-            <a href="https://laravel.com/docs/12.x" target="_blank" class="btn btn-primary btn-lg">
-                Documentation
-            </a>
-            <a href="{{ url('/health') }}" class="btn btn-outline-secondary btn-lg">
-                Health Check
-            </a>
-        </div>
     </div>
-</main>
-<footer class="text-center text-muted py-3 mt-auto">
-    &copy; {{ date('Y') }} Laravel 12 Starter. Built with ❤️.
-</footer>
-<!-- Bootstrap JS via CDN (optional, for dynamic components) -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+
+    <div class="row g-4">
+
+        <div class="col-md-6 col-xl-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+
+                    <i class="bi bi-person fs-3"
+                       style="color: var(--accent-color)"></i>
+
+                    <h5 class="fw-bold mt-3">My Profile</h5>
+
+                    <p class="text-muted">
+                        View and update your account information.
+                    </p>
+
+                    <a href="{{ route('portal.profile.details') }}">
+                        View Profile
+                    </a>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+
+                    <i class="bi bi-file-earmark-text fs-3"
+                       style="color: var(--accent-color)"></i>
+
+                    <h5 class="fw-bold mt-3">Content Management</h5>
+
+                    <p class="text-muted">
+                        Access the CMS pages.
+                    </p>
+
+                    <a href="{{ route('portal.cms.home') }}">
+                        View CMS
+                    </a>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+@endsection
