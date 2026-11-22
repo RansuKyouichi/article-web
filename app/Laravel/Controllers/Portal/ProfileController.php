@@ -33,26 +33,41 @@ class ProfileController extends Controller
 
     public function update(UserAccountRequest $request)
     {
-        $user = Auth::guard('web')->user();
+        DB::beginTransaction();
 
-        DB::transaction(function () use ($request, $user) {
+        try {
+
+            $user = auth('web')->user();
 
             $user->first_name = strtoupper($request->input('first_name'));
             $user->last_name = strtoupper($request->input('last_name'));
             $user->email = strtolower($request->input('email'));
 
-            if ($request->filled('new_password')) {
+            if ($request->filled('password')) {
                 $user->password = Hash::make(
-                    $request->input('new_password')
+                    $request->input('password')
                 );
             }
 
             $user->save();
-        });
 
-        return redirect()
-            ->route('portal.profile.details')
-            ->with('notification-status', 'success')
-            ->with('notification-msg', 'Profile successfully updated.');
+            DB::commit();
+
+            session()->flash('notification-status', 'success');
+            session()->flash('notification-msg', 'Profile updated successfully.');
+
+            return redirect()->route('portal.profile.details');
+
+        } catch (\Throwable $e) {
+
+            DB::rollBack();
+
+            report($e);
+
+            session()->flash('notification-status', 'failed');
+            session()->flash('notification-msg', 'Unable to update account. Please try again.');
+
+            return redirect()->back()->withInput();
+        }
     }
 }

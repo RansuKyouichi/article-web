@@ -70,8 +70,7 @@
 
         <div class="col-lg-8">
 
-            <form action="{{ route('portal.profile.update') }}"
-                  method="POST">
+            <form action="{{ route('portal.profile.update') }}" method="POST" class="js-confirm-submit">
 
                 @csrf
                 @method('PUT')
@@ -179,12 +178,12 @@
                             </label>
 
                             <input type="password"
-                                   name="new_password"
-                                   class="form-control profile-input @error('new_password') is-invalid @enderror"
+                                   name="password"
+                                   class="form-control profile-input @error('password') is-invalid @enderror"
                                    placeholder="Enter new password"
                                    autocomplete="new-password">
 
-                            @error('new_password')
+                            @error('password')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
@@ -201,10 +200,16 @@
                             </label>
 
                             <input type="password"
-                                   name="new_password_confirmation"
-                                   class="form-control profile-input"
+                                   name="password_confirmation"
+                                   class="form-control profile-input @error('password') is-invalid @enderror"
                                    placeholder="Confirm new password"
                                    autocomplete="new-password">
+
+                            @error('password')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
 
                             <small class="profile-input-help">
                                 Re-enter your new password.
@@ -237,6 +242,42 @@
     </div>
 
 </div>
+
+@endsection
+
+@section('page-scripts')
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    const form = document.querySelector('.js-confirm-submit');
+
+    if (form) {
+        form.addEventListener('submit', function (event) {
+
+            event.preventDefault();
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'Do you want to submit these account details?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, proceed',
+                cancelButtonText: 'Cancel',
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33'
+            }).then((result) => {
+
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+
+            });
+        });
+    }
+
+});
+</script>
 
 @endsection
 

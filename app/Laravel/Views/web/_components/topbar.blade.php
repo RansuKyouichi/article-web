@@ -56,7 +56,7 @@
 
                 @guest
                     <li class="nav-item">
-                        <a href="{{ route('portal.auth.login') }}"
+                        <a href="{{ route('portal.auth.register') }}"
                         class="btn btn-accent nav-cta">
                             Sign Up
                         </a>
