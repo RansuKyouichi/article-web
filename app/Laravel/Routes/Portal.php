@@ -12,17 +12,6 @@ Route::group([
 
     include_once app_path('Laravel/Routes/Portal/Auth.php');
 
-        Route::get('/', [
-            'as' => 'dashboard',
-            'uses' => 'MainController@index'
-        ]);
-
-        include_once app_path('Laravel/Routes/Portal/Profile.php');
-
-        include_once app_path('Laravel/Routes/Portal/CMS.php');
-
-    Route::middleware('portal.auth')->group(function () {
-
         // Route::get('/', [
         //     'as' => 'dashboard',
         //     'uses' => 'MainController@index'
@@ -31,6 +20,17 @@ Route::group([
         // include_once app_path('Laravel/Routes/Portal/Profile.php');
 
         // include_once app_path('Laravel/Routes/Portal/CMS.php');
+
+    Route::middleware('portal.auth')->group(function () {
+
+        Route::get('/', [
+            'as' => 'dashboard',
+            'uses' => 'MainController@index'
+        ]);
+
+        include_once app_path('Laravel/Routes/Portal/Profile.php');
+
+        include_once app_path('Laravel/Routes/Portal/CMS.php');
 
         Route::post('logout', [
             'as' => 'logout',

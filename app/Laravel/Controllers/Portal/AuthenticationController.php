@@ -6,6 +6,7 @@ use App\Laravel\Models\User;
 use App\Laravel\Requests\PageRequest;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use App\Laravel\Requests\Portal\LoginRequest;
 use App\Laravel\Requests\Portal\RegisterRequest;
 
@@ -39,9 +40,10 @@ class AuthenticationController extends Controller
         try {
 
             $user = new User();
-            $user->name = strtoupper($request->input('name'));
+            $user->first_name = strtoupper($request->input('first_name'));
+            $user->last_name = strtoupper($request->input('last_name'));
             $user->email = strtolower($request->input('email'));
-            $user->password = bcrypt($request->input('password'));
+            $user->password = $request->input('password');
             $user->save();
 
             DB::commit();

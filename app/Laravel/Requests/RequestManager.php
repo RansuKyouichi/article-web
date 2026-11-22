@@ -26,8 +26,8 @@ class RequestManager extends FormRequest
 
     protected function failedValidation(Validator $validator)
     {
-        session()->flash('notification-status','error');
-        session()->flash('notification-msg','Some fields are missing or not accepted.');
+        // session()->flash('notification-status','error');
+        // session()->flash('notification-msg','Some fields are missing or not accepted.');
         throw (new ValidationException($validator))
             ->errorBag($this->errorBag)
             ->redirectTo($this->getRedirectUrl());
@@ -39,8 +39,8 @@ class RequestManager extends FormRequest
             return response()->json($errors, 422);
         }
 
-        session()->flash('notification-status','error');
-        session()->flash('notification-msg','Some fields are missing or not accepted.');
+        // session()->flash('notification-status','error');
+        // session()->flash('notification-msg','Some fields are missing or not accepted.');
 
 
         return $this->redirector->to($this->getRedirectUrl())

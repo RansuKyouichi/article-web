@@ -13,14 +13,14 @@
 
         <div class="text-center mb-4">
 
-            <h3 class="login-title mb-1">Welcome back.</h3>
+            <h3 class="login-title mb-1">Welcome back User.</h3>
 
             <p class="login-subtitle mb-0">
                 Sign in to manage your content and website.
             </p>
         </div>
 
-        <form class="login-form" method="POST" action="">
+        <form class="login-form" method="POST" action="{{ route('portal.auth.login') }}">
             @csrf
             <div class="mb-3">
                 <label for="email" class="form-label">
