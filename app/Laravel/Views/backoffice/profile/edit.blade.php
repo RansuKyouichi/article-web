@@ -70,8 +70,7 @@
 
         <div class="col-lg-8">
 
-            <form action="{{ route('backoffice.profile.update') }}"
-                  method="POST">
+            <form action="{{ route('backoffice.profile.update') }}" method="POST" class="js-confirm-submit">
 
                 @csrf
                 @method('PUT')
@@ -243,6 +242,42 @@
     </div>
 
 </div>
+
+@endsection
+
+@section('page-scripts')
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    const form = document.querySelector('.js-confirm-submit');
+
+    if (form) {
+        form.addEventListener('submit', function (event) {
+
+            event.preventDefault();
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'Do you want to submit these account details?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, proceed',
+                cancelButtonText: 'Cancel',
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33'
+            }).then((result) => {
+
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+
+            });
+        });
+    }
+
+});
+</script>
 
 @endsection
 

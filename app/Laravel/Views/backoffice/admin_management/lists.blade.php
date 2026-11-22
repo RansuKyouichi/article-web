@@ -65,7 +65,7 @@
                                     {{-- @if (auth('admin')->id() != $record->id) --}}
                                         <form action="{{ route('backoffice.admins.delete', $record->id) }}"
                                               method="POST"
-                                              onsubmit="return confirm('Are you sure you want to delete this administrator?')">
+                                              class="js-confirm-delete">
                                             @csrf
                                             @method('DELETE')
 
@@ -107,5 +107,41 @@
     </div>
 
 </div>
+
+@endsection
+
+@section('page-scripts')
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    const form = document.querySelector('.js-confirm-delete');
+
+    if (form) {
+        form.addEventListener('submit', function (event) {
+
+            event.preventDefault();
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'Do you want to delete this account?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, proceed',
+                cancelButtonText: 'Cancel',
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33'
+            }).then((result) => {
+
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+
+            });
+        });
+    }
+
+});
+</script>
 
 @endsection
