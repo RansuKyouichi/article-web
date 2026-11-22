@@ -11,7 +11,7 @@ class UserAccountRequest extends RequestManager
     public function rules()
     {
 
-        return [
+        $rules = [
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
 
@@ -42,7 +42,6 @@ class UserAccountRequest extends RequestManager
             'email.email' => 'Please enter a valid email address.',
             'email.unique' => 'This email address is already registered.',
 
-            'password.required' => 'Password is required.',
             'password.min' => 'Password must be at least 8 characters long.',
             'password.confirmed' => 'Password confirmation does not match.',
         ];

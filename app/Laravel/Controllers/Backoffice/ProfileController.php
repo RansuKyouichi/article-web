@@ -34,26 +34,41 @@ class ProfileController extends Controller
 
     public function update(AdminAccountRequest $request)
     {
-        $admin = Auth::guard('admin')->user();
+        DB::beginTransaction();
 
-        DB::transaction(function () use ($request, $admin) {
+        try {
 
-            $admin->first_name = strtoupper($request->input('first_name'));
-            $admin->last_name = strtoupper($request->input('last_name'));
-            $admin->email = strtolower($request->input('email'));
+            $user = auth('admin')->user();
 
-            if ($request->filled('new_password')) {
-                $admin->password = Hash::make(
-                    $request->input('new_password')
+            $user->first_name = strtoupper($request->input('first_name'));
+            $user->last_name = strtoupper($request->input('last_name'));
+            $user->email = strtolower($request->input('email'));
+
+            if ($request->filled('password')) {
+                $user->password = Hash::make(
+                    $request->input('password')
                 );
             }
 
-            $admin->save();
-        });
+            $user->save();
 
-        return redirect()
-            ->route('backoffice.profile.details')
-            ->with('notification-status', 'success')
-            ->with('notification-msg', 'Administrator profile successfully updated.');
+            DB::commit();
+
+            session()->flash('notification-status', 'success');
+            session()->flash('notification-msg', 'Profile updated successfully.');
+
+            return redirect()->route('backoffice.profile.details');
+
+        } catch (\Throwable $e) {
+
+            DB::rollBack();
+
+            report($e);
+
+            session()->flash('notification-status', 'failed');
+            session()->flash('notification-msg', 'Unable to update account. Please try again.');
+
+            return redirect()->back()->withInput();
+        }
     }
 }

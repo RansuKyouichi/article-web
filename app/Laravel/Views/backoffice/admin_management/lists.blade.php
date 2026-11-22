@@ -62,7 +62,7 @@
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
 
-                                    @if (auth('admin')->id() != $record->id)
+                                    {{-- @if (auth('admin')->id() != $record->id) --}}
                                         <form action="{{ route('backoffice.admins.delete', $record->id) }}"
                                               method="POST"
                                               onsubmit="return confirm('Are you sure you want to delete this administrator?')">
@@ -73,7 +73,7 @@
                                                 <i class="bi bi-trash"></i>
                                             </button>
                                         </form>
-                                    @endif
+                                    {{-- @endif --}}
                                 </div>
                             </td>
                         </tr>

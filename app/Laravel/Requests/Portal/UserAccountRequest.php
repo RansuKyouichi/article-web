@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Laravel\Requests\Backoffice;
+namespace App\Laravel\Requests\Portal;
 
 use App\Laravel\Requests\RequestManager;
 use Illuminate\Validation\Rule;
@@ -10,7 +10,7 @@ class UserAccountRequest extends RequestManager
     public function rules()
     {
 
-        return [
+        $rules = [
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
 
@@ -18,7 +18,7 @@ class UserAccountRequest extends RequestManager
                 'required',
                 'email',
                 'max:255',
-                Rule::unique('users', 'email')->ignore($this->route('user')),
+                Rule::unique('users', 'email')->ignore(auth('web')->id()),
             ],
         ];
 

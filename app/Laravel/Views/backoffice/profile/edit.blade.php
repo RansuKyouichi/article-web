@@ -179,12 +179,12 @@
                             </label>
 
                             <input type="password"
-                                   name="new_password"
-                                   class="form-control profile-input @error('new_password') is-invalid @enderror"
+                                   name="password"
+                                   class="form-control profile-input @error('password') is-invalid @enderror"
                                    placeholder="Enter new password"
                                    autocomplete="new-password">
 
-                            @error('new_password')
+                            @error('password')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
@@ -201,10 +201,16 @@
                             </label>
 
                             <input type="password"
-                                   name="new_password_confirmation"
-                                   class="form-control profile-input"
+                                   name="password_confirmation"
+                                   class="form-control profile-input @error('password') is-invalid @enderror"
                                    placeholder="Confirm new password"
                                    autocomplete="new-password">
+
+                            @error('password')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
 
                             <small class="profile-input-help">
                                 Re-enter your new password.
