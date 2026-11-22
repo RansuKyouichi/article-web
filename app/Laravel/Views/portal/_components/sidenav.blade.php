@@ -1,3 +1,9 @@
+@php
+    $user = auth()->user();
+    $fullName = $user
+        ? $user->first_name . ' ' . $user->last_name
+        : 'User';
+@endphp
 
 <aside class="portal-sidebar offcanvas-lg offcanvas-start"
        tabindex="-1"
@@ -8,7 +14,7 @@
         <a href="{{ route('portal.dashboard') }}" class="sidebar-logo">
             <div>
                 <h5>AMS<span>.</span></h5>
-                <small>ADMIN PORTAL</small>
+                <small>USER PORTAL</small>
             </div>
         </a>
 
@@ -26,7 +32,7 @@
             <a href="{{ route('portal.dashboard') }}" class="sidebar-logo">
                 <div>
                     <h5>AMS<span>.</span></h5>
-                    <small>ADMIN PORTAL</small>
+                    <small>USER PORTAL</small>
                 </div>
             </a>
         </div>
@@ -69,7 +75,7 @@
             <div class="sidebar-group">
                 <p class="sidebar-label">ACCOUNT</p>
 
-                <a href="#" class="sidebar-link ">
+                <a href="{{ route('portal.profile.details') }}" class="sidebar-link {{ request()->routeIs('portal.profile.details') ? 'active' : '' }}">
                     <i class="bi bi-person"></i>
                     <span>Profile</span>
                 </a>
@@ -85,8 +91,8 @@
             </div>
 
             <div class="sidebar-user-info">
-                <p>User</p>
-                <small>User</small>
+                <p>{{ $fullName }}</p>
+                <small>{{ $user?->email ?? 'User' }}</small>
             </div>
 
             <form action="{{ route('portal.logout') }}" method="POST"  class="js-logout-form">

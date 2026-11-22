@@ -1,0 +1,37 @@
+<?php
+
+namespace App\Laravel\Requests\Backoffice;
+
+use App\Laravel\Requests\RequestManager;
+use Illuminate\Validation\Rule;
+
+class RegisterRequest extends RequestManager
+{
+    public function rules(){
+
+        $rules = [
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:admins,email',
+            'password' => 'required|string|min:8|confirmed',
+        ];  
+
+        return $rules;
+    }
+
+    public function messages(){
+        
+        return[
+            'first_name.required' => 'First Name is required.',
+            'last_name.required' => 'Last Name is required.',
+
+            'email.required' => 'Email Address is required.',
+            'email.email' => 'Please enter a valid email address.',
+            'email.unique' => 'This email address is already registered.',
+
+            'password.required' => 'Password is required.',
+            'password.min' => 'Password must be at least 8 characters long.',
+            'password.confirmed' => 'Password confirmation does not match.',
+        ];
+    }
+}

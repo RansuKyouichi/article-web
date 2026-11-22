@@ -1,3 +1,9 @@
+@php
+    $user = auth()->user();
+    $fullName = $user
+        ? $user->first_name . ' ' . $user->last_name
+        : 'User';
+@endphp
 
 <header class="portal-header">
 
@@ -14,7 +20,7 @@
 
         <div class="header-heading">
             <h5 class="header-title mb-0">
-                {{ $page_title ?? 'Default Title' }}
+                {{ $page_title ?? 'Dashboard' }}
             </h5>
 
             <small class="header-subtitle">
@@ -36,12 +42,12 @@
         <div class="header-profile">
 
             <div class="profile-avatar">
-                U
+                {{ $user ? strtoupper(substr($user->first_name, 0, 1)) : 'G' }}
             </div>
 
             <div class="profile-details d-none d-sm-block">
-                <p class="profile-name">User</p>
-                <small>User</small>
+                <p class="profile-name">{{ $fullName }}</p>
+                <small>{{ $user?->email ?? 'User' }}</small>
             </div>
 
         </div>

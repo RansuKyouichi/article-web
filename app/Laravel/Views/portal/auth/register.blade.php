@@ -14,11 +14,11 @@
             <h3 class="register-title mb-1">Create an account.</h3>
 
             <p class="register-subtitle mb-0">
-                Get started with your AMS admin account.
+                Get started with your AMS User account.
             </p>
         </div>
 
-        <form class="register-form" method="POST" action="">  
+        <form class="register-form" method="POST" action="{{ route('portal.auth.store') }}">  
             @csrf
             <div class="mb-3">
                 <label for="name" class="form-label">

@@ -66,7 +66,7 @@
                 @auth
                     <li class="nav-item">
                         <span class="nav-link">
-                            Hello, {{ auth()->user()->name }}
+                            Hello, {{ auth()->user()->first_name }}
                         </span>
                     </li>
 
