@@ -8,22 +8,22 @@ Route::group([
 
     Route::get('home', [
         'as' => 'home',
-        'uses' => 'MainController@cmsHome'
+        'uses' => 'MainController@cms_home'
     ]);
 
     Route::get('about', [
         'as' => 'about',
-        'uses' => 'MainController@cmsAbout'
+        'uses' => 'MainController@cms_about'
     ]);
 
     Route::get('articles', [
         'as' => 'articles',
-        'uses' => 'MainController@cmsArticles'
+        'uses' => 'MainController@cms_articles'
     ]);
 
     Route::get('contact', [
         'as' => 'contact',
-        'uses' => 'MainController@cmsContact'
+        'uses' => 'MainController@cms_contact'
     ]);
 
 });
