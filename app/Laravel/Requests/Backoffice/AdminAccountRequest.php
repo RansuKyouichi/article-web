@@ -18,7 +18,7 @@ class AdminAccountRequest extends RequestManager
                 'required',
                 'email',
                 'max:255',
-                Rule::unique('admins', 'email')->ignore(auth('admin')->id()),
+                Rule::unique('admins', 'email')->ignore($this->route('admin')),
             ],
         ];
 

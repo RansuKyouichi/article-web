@@ -17,7 +17,7 @@ class UserAccountController extends Controller
 
     public function lists(PageRequest $request)
     {
-        $this->data['page_title'] = 'User Management | AMS';
+        $this->data['page_title'] = 'User Management | AMS Admin Portal';
         $this->data['records'] = User::paginate(10);
 
         return view('backoffice.user_management.lists', $this->data);
@@ -25,7 +25,7 @@ class UserAccountController extends Controller
 
     public function create(PageRequest $request){
 
-        $this->data['page_title'] = 'Create Account | AMS';
+        $this->data['page_title'] = 'Create Account | AMS Admin Portal';
 
         return view('backoffice.user_management.create', $this->data);
     }
@@ -33,7 +33,7 @@ class UserAccountController extends Controller
 
     public function show(PageRequest $request, $id)
     {
-        $this->data['page_title'] = 'User Details | AMS';
+        $this->data['page_title'] = 'User Details | AMS Admin Portal';
         $this->data['record'] = User::findOrFail($id);
 
         return view('backoffice.user_management.show', $this->data);
@@ -42,7 +42,7 @@ class UserAccountController extends Controller
 
     public function edit(PageRequest $request, $id)
     {
-        $this->data['page_title'] = 'Edit User | AMS';
+        $this->data['page_title'] = 'Edit User | AMS Admin Portal';
         $this->data['record'] = User::findOrFail($id);
 
         return view('backoffice.user_management.edit', $this->data);

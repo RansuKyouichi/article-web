@@ -415,7 +415,7 @@ a {
 @media (max-width: 992px) {
 
     .portal-sidebar {
-        width: 280px;
+        width: 280px !important;
         height: 100vh;
         border-right: 1px solid var(--border-color);
     }

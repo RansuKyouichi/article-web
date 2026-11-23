@@ -16,7 +16,7 @@ class AdminAccountController extends Controller
 
     public function lists(PageRequest $request)
     {
-        $this->data['page_title'] = 'Admin Management';
+        $this->data['page_title'] = 'Admin Management | AMS Admin Portal';
         $this->data['records'] = Admin::paginate(10);
 
         return view('backoffice.admin_management.lists', $this->data);
@@ -24,7 +24,7 @@ class AdminAccountController extends Controller
 
     public function show(PageRequest $request, $id)
     {
-        $this->data['page_title'] = 'User Details | AMS';
+        $this->data['page_title'] = 'User Details | AMS Admin Portal';
         $this->data['record'] = Admin::findOrFail($id);
 
         return view('backoffice.admin_management.show', $this->data);
@@ -32,7 +32,7 @@ class AdminAccountController extends Controller
 
     public function edit(PageRequest $request, $id)
     {
-        $this->data['page_title'] = 'Edit User | AMS';
+        $this->data['page_title'] = 'Edit User | AMS Admin Portal';
         $this->data['record'] = Admin::findOrFail($id);
 
         return view('backoffice.admin_management.edit', $this->data);
@@ -62,7 +62,7 @@ class AdminAccountController extends Controller
             session()->flash('notification-status', 'success');
             session()->flash('notification-msg', 'Admin account successfully updated.');
 
-            return redirect()->route('backoffice.admin_management.lists');
+            return redirect()->route('backoffice.admins.lists');
 
         } catch (\Throwable $e) {
 

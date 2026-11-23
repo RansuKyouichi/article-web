@@ -14,7 +14,7 @@ class ProfileController extends Controller
     {
         $admin = Auth::guard('admin')->user();
 
-        $this->data['page_title'] = 'My Profile | AMS';
+        $this->data['page_title'] = 'My Profile | AMS Admin Portal';
         $this->data['admin'] = $admin;
         $this->data['user'] = $admin;
 
@@ -25,7 +25,7 @@ class ProfileController extends Controller
     {
         $admin = Auth::guard('admin')->user();
 
-        $this->data['page_title'] = 'Edit Profile | AMS';
+        $this->data['page_title'] = 'Edit Profile | AMS Admin Portal';
         $this->data['admin'] = $admin;
         $this->data['user'] = $admin;
 
