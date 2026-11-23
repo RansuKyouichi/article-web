@@ -20,17 +20,17 @@ class AuthenticationController extends Controller
     }
 
     public function login(PageRequest $request){
-        $this->data['page_title'] = 'Login | AMS';
+        $this->data['page_title'] = 'Login | AMS User Portal';
         return view('portal.auth.login', $this->data);
     }
 
     public function register(PageRequest $request){
-        $this->data['page_title'] = 'Register | AMS';
+        $this->data['page_title'] = 'Register | AMS User Portal';
         return view('portal.auth.register', $this->data);
     }
 
     public function forgot_password(PageRequest $request){
-        $this->data['page_title'] = 'Forgot-Password | AMS';
+        $this->data['page_title'] = 'Forgot-Password | AMS User Portal';
         return view('portal.auth.forgot_password', $this->data);
     }
 

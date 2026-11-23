@@ -16,22 +16,22 @@ class MainController extends Controller{
     }
 
     public function cmsHome(PageRequest $request){
-        $this->data['page_title'] = 'CMS Home | AMS';
+        $this->data['page_title'] = 'CMS Home | AMS User Portal';
         return view('portal.cms.home', $this->data);
     }
 
     public function cmsAbout(PageRequest $request){
-        $this->data['page_title'] = 'CMS About | AMS';
+        $this->data['page_title'] = 'CMS About | AMS User Portal';
         return view('portal.cms.about', $this->data);
     }
 
     public function cmsArticles(PageRequest $request){
-        $this->data['page_title'] = 'CMS Articles | AMS';
+        $this->data['page_title'] = 'CMS Articles | AMS User Portal';
         return view('portal.cms.articles', $this->data);
     }
 
     public function cmsContact(PageRequest $request){
-        $this->data['page_title'] = 'CMS Contact | AMS';
+        $this->data['page_title'] = 'CMS Contact | AMS User Portal';
         return view('portal.cms.contact', $this->data);
     }
 
