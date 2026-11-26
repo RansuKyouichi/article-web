@@ -17,10 +17,10 @@ Route::group(['as' => "api.",
         Route::post('check-login','AuthenticationController@check_login')->name('check_login')->middleware(["api.auth"]);
     });
 
-    // Route::group(['middleware' => "api.auth"],function(){
-    //     Route::group(['prefix' => "profile",'as' => 'profile.'],function(){
-    //         Route::post('info','ProfileController@show')->name('info');
-    //     });
+    Route::group(['middleware' => "api.auth"],function(){
+        Route::group(['prefix' => "profile",'as' => 'profile.'],function(){
+            Route::post('info','ProfileController@show')->name('info');
+        });
 
         Route::group(['prefix' => "articles",'as' => 'article.'],function(){
             Route::post('/',['as' => 'index', 'uses' => 'ArticleController@index']);
@@ -30,6 +30,6 @@ Route::group(['as' => "api.",
             Route::post('delete/{id?}',['as' => 'delete',  'uses' => 'ArticleController@destroy']);//->middleware(["api.exist:article", "api.exist:own_article"]);
             Route::post('restore/{id?}',['as' => 'restore',  'uses' => 'ArticleController@restore']);
         });
-    // });
+    });
 
 });

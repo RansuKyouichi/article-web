@@ -137,6 +137,14 @@ class AuthenticationController extends Controller
 
         $user =  auth($this->guard)->user();
 
+        if(!$user){
+            $this->response['status'] = FALSE;
+            $this->response['status_code'] = "UNAUTHORIZED";
+            $this->response['msg'] = "Invalid/Expired token. Do refresh token.";
+            $this->response_code = 401;
+            goto  callback;
+        }
+
         $new_token = auth($this->guard)->refresh();
 
         $this->response['status'] = TRUE;
@@ -152,8 +160,16 @@ class AuthenticationController extends Controller
     }
 
     public function logout(PageRequest $request){
-
         $user = auth($this->guard)->user();
+
+        if(!$user){
+            $this->response['status'] = FALSE;
+            $this->response['status_code'] = "UNAUTHORIZED";
+            $this->response['msg'] = "Invalid/Expired token. Do refresh token.";
+            $this->response_code = 401;
+            goto  callback;
+        }
+
         if($user){
             auth($this->guard)->logout(true);
 
