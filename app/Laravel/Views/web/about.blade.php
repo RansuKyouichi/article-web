@@ -6,11 +6,15 @@
     <div class="container">
         <div class="about-hero-content">
             <span class="section-label">
-                GET TO KNOW US
+                {!! ($about_settings['hero']['label'] ?? '') ?: $default['hero']['label'] !!}
             </span>
-            <h1 class="mt-3">Lorem Ipsum<span class="text-accent"> Dolor.</span></h1>
+            <h1 class="mt-3 d-flex gap-3">
+                {!! ($about_settings['hero']['title'] ?? '') ?: $default['hero']['title'] !!}
+                <span class="text-accent"> 
+                    {!! ($about_settings['hero']['accent'] ?? '') ?: $default['hero']['accent'] !!}
+                </span></h1>
             <p class="about-hero-description mt-4">
-                lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc ut laoreet tincidunt, nunc nisl aliquam nunc, eget aliquam nisl nunc eget nunc.
+                {!! ($about_settings['hero']['description'] ?? '') ?: $default['hero']['description'] !!}
             </p>
         </div>
 
@@ -42,24 +46,26 @@
             <div class="col-lg-6">
                 <div class="about-story-content">
                     <span class="section-label">
-                        Lorem Ipsum
+                        {!! ($about_settings['story']['label'] ?? '') ?: $default['story']['label'] !!}
                     </span>
 
                     <h2 class="mt-3">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        {!! ($about_settings['story']['title'] ?? '') ?: $default['story']['title'] !!}
                     </h2>
 
-                    <p class="mt-4">
-                        lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc ut laoreet tincidunt, nunc nisl aliquam nunc, eget aliquam nisl nunc eget nunc.
-                    </p>
+                    <div class="class="mt-4"">
+                        <p>
+                            {!! ($about_settings['story']['paragraph1'] ?? '') ?: $default['story']['paragraph1'] !!}
+                        </p>
 
-                    <p>
-                        lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc ut laoreet tincidunt, nunc nisl aliquam nunc, eget aliquam nisl nunc eget nunc.
-                    </p>
+                        <p>
+                            {!! ($about_settings['story']['paragraph2'] ?? '') ?: $default['story']['paragraph2'] !!}
+                        </p>
 
-                    <p>
-                        lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc ut laoreet tincidunt, nunc nisl aliquam nunc, eget aliquam nisl nunc eget nunc.
-                    </p>
+                        <p>
+                            {!! ($about_settings['story']['paragraph3'] ?? '') ?: $default['story']['paragraph3'] !!}
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -71,13 +77,13 @@
     <div class="container">
         <div class="text-center mb-5">
             <span class="section-label">
-                Lorem Ipsum
+                {!! ($about_settings['purpose']['label'] ?? '') ?: $default['purpose']['label'] !!}
             </span>
             <h2 class="editorial-heading section-title mt-3">
-                Lorem Ipsum
+                {!! ($about_settings['purpose']['title'] ?? '') ?: $default['purpose']['title'] !!}
             </h2>
             <p class="section-description">
-                lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc ut laoreet tincidunt, nunc nisl aliquam nunc, eget aliquam nisl nunc eget nunc.
+                {!! ($about_settings['purpose']['description'] ?? '') ?: $default['purpose']['description'] !!}
             </p>
         </div>
 
@@ -89,7 +95,7 @@
                     </div>
                     <h3>Our Mission</h3>
                     <p class="mt-3">
-                        lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc ut laoreet tincidunt, nunc nisl aliquam nunc, eget aliquam nisl nunc eget nunc.
+                        {!! ($about_settings['purpose']['mission'] ?? '') ?: $default['purpose']['mission'] !!}
                     </p>
                 </div>
             </div>
@@ -101,7 +107,7 @@
                     </div>
                     <h3>Our Vision</h3>
                     <p class="mt-3">
-                       Lorem ipsum dolor sit, amet consectetur adipisicing elit. Temporibus cumque hic eaque. Cupiditate ab suscipit illum omnis inventore ea ullam est id unde, at possimus blanditiis nobis voluptatem voluptas obcaecati.
+                       {!! ($about_settings['purpose']['vision'] ?? '') ?: $default['purpose']['vision'] !!}
                     </p>
 
                 </div>
@@ -116,53 +122,36 @@
     <div class="container">
         <div class="text-center mb-5">
             <h2 class="editorial-heading section-title mt-3">
-                lorem ipsum dolor
+                {!! ($about_settings['values']['title'] ?? '') ?: $default['values']['title'] !!}
             </h2>
-            <p class="section-description">lore ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <p {!! ($about_settings['values']['description'] ?? '') ?: $default['values']['description'] !!}</p>
         </div>
 
 
         <div class="row g-4">
-            <div class="col-sm-6 col-lg-3">
-                <div class="value-item">
-                    <span class="value-number">01</span>
-                    <h4>Lorem Ipsum</h4>
-                    <p class="mt-3">lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            @for($i = 0; $i < 4; $i++)
+                <div class="col-sm-6 col-lg-3">
+                    <div class="value-item">
+                        <span class="value-number">{{ str_pad($i + 1, 2, '0', STR_PAD_LEFT) }}</span>
+                        <h4>
+                            {!! ($about_settings['values']['items'][$i]['title'] ?? '') ?: $default['values']['items'][$i]['title'] !!}
+                        </h4>
+                        <p class="mt-3">
+                            {!! ($about_settings['values']['items'][$i]['description'] ?? '') ?: $default['values']['items'][$i]['description'] !!}
+                        </p>
+                    </div>
                 </div>
-            </div>
-
-            <div class="col-sm-6 col-lg-3">
-                <div class="value-item">
-                    <span class="value-number">02</span>
-                    <h4>Lorem Ipsum</h4>
-                    <p class="mt-3">lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                </div>
-            </div>
-
-            <div class="col-sm-6 col-lg-3">
-                <div class="value-item">
-                    <span class="value-number">03</span>
-                    <h4>Lorem Ipsum</h4>
-                    <p class="mt-3">lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                </div>
-            </div>
-
-            <div class="col-sm-6 col-lg-3">
-                <div class="value-item">
-                    <span class="value-number">04</span>
-                    <h4>Lorem Ipsum</h4>
-                    <p class="mt-3">lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                </div>
-            </div>
+            @endfor
         </div>
+
     </div>
 
 </section>
 
 <section class="about-cta">
     <div class="container">
-        <h2 class="mt-3">There's Always More to Discover.</h2>
-        <p>lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        <h2 class="mt-3">{!! ($about_settings['cta']['title'] ?? '') ?: $default['cta']['title'] !!}</h2>
+        <p>{!! ($about_settings['cta']['description'] ?? '') ?: $default['cta']['description'] !!}</p>
 
         <div class="d-flex justify-content-center flex-wrap gap-3">
             <a href="{{ route('web.articles') }}"
@@ -243,8 +232,8 @@
 }
 
 .about-story-content p {
-    color: var(--muted-color);
-    font-size: 0.95rem;
+    /* color: var(--muted-color);
+    font-size: 0.95rem; */
     line-height: 1.9;
 }
 
@@ -340,9 +329,9 @@
 }
 
 .about-cta p {
-    max-width: 600px;
-    margin: 18px auto 28px;
-    color: var(--muted-color);
+    /* max-width: 600px; */
+    /* margin: 18px auto 28px; */
+    /* color: var(--muted-color); */
     line-height: 1.9;
 }
 

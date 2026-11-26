@@ -3,7 +3,7 @@
 
 @section('contents')
 
-<div class="container-fluid py-4">
+<div class="container-fluid p-4">
 
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
@@ -35,15 +35,23 @@
                     <label class="form-label">Welcome Label</label>
                     <div class="editor" id="hero-label"></div>
                 </div>
+                
+                <div class="row">
 
-                <div class="mb-3">
-                    <label class="form-label">Main Heading</label>
-                    <div class="editor" id="hero-title"></div>
-                </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Main Heading</label>
+                            <div class="editor" id="hero-title"></div>
+                        </div>
+                    </div>
 
-                <div class="mb-3">
-                    <label class="form-label">Accent Heading</label>
-                    <div class="editor" id="hero-accent"></div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Accent Heading</label>
+                            <div class="editor" id="hero-accent"></div>
+                        </div>
+                    </div>
+
                 </div>
 
                 <div class="mb-3">
@@ -138,7 +146,7 @@
 
             <button type="submit" class="btn btn-primary px-4">
                 <i class="fas fa-save me-1"></i>
-                Save Homepage Content
+                Save Changes
             </button>
 
         </div>
@@ -177,6 +185,7 @@
     };
 
     const editors = {};
+    const editorPromises = [];
 
     function getSetting(path) {
         return path.split('.').reduce((value, key) => {
@@ -200,7 +209,9 @@
 
     Object.keys(editorFields).forEach(id => {
 
-        ClassicEditor.create(document.querySelector('#' + id), {
+        const path = editorFields[id];
+
+        const editorPromise = ClassicEditor.create(document.querySelector('#' + id), {
             toolbar: [
                 'heading', '|',
                 'bold', 'italic', 'underline', '|',
@@ -221,12 +232,16 @@
 
             editors[id] = editor;
 
-            editor.setData(getSetting(editorFields[id]) || '');
+            editor.setData(getSetting(path) || '');
+
+            return editor;
 
         })
         .catch(error => {
             console.error(error);
         });
+
+        editorPromises.push(editorPromise);
 
     });
 
@@ -234,7 +249,6 @@
     document.querySelectorAll('[data-setting]').forEach(input => {
 
         const path = input.dataset.setting;
-
         input.value = getSetting(path) || '';
 
     });
@@ -245,21 +259,16 @@
         event.preventDefault();
 
         for (const id in editors) {
-
             const path = editorFields[id];
-
             setSetting(path, editors[id].getData());
 
         }
 
         document.querySelectorAll('[data-setting]').forEach(input => {
-
             setSetting(input.dataset.setting, input.value);
-
         });
 
         document.querySelector('#editor-content').value = JSON.stringify(settings);
-
         this.submit();
 
     });
