@@ -16,7 +16,8 @@ class RegisterRequest extends ApiRequestManager
 
         return [
             'email' => "required|email:rfc,strict,dns,filter|unique_email:0",
-            'name' => "required|between:2,100|regex:/^[A-Za-z0-9 \s]+$/",
+            'first_name' => "required|between:2,100|regex:/^[A-Za-z0-9 \s]+$/",
+            'last_name' => "required|between:2,100|regex:/^[A-Za-z0-9 \s]+$/",
             'password' => [
                 'required',
                 'between:6,20',
@@ -31,7 +32,8 @@ class RegisterRequest extends ApiRequestManager
         return [
             'required' => "Field is required.",
             'regex' => "Invalid data.",
-            'name.between' => "Firstname should be between 2 to 100 characters only.",
+            'first_name.between' => "Firstname should be between 2 to 100 characters only.",
+            'last_name.between' => "Lastname should be between 2 to 100 characters only.",
             'contact_number.phone' => "Invalid contact number format.",
             'password.between' => "Password should be between 6 to 20 characters",
             'password_format' => "Password must be 6-20 characters long, contain at least one uppercase letter, and at least one special character.",

@@ -9,7 +9,7 @@ namespace App\Laravel\Controllers\Api;
 use App\Laravel\Models\Article;
 use App\Laravel\Requests\Api\ArticleRequest;
 use App\Laravel\Requests\PageRequest;
-use App\Laravel\Services\ImageUploader;
+// use App\Laravel\Services\ImageUploader;
 use App\Laravel\Traits\ResponseGenerator;
 
 use App\Laravel\Transformers\{ArticleTransformer, TransformerManager};
@@ -33,10 +33,9 @@ class ArticleController extends Controller
 
     public function index(PageRequest  $request){
         $per_page = $request->input('per_page',10);
-        $auth = $request->user($this->guard);
+        // $auth = $request->user($this->guard);
 
-        $articles = Article::where("user_id", $auth->id)
-            ->orderBy('updated_at',"DESC")
+        $articles = Article::orderBy('updated_at',"DESC")
             ->paginate($per_page);
 
         $this->response['status'] = TRUE;
@@ -50,8 +49,17 @@ class ArticleController extends Controller
         return response()->json($this->api_response($this->response), $this->response_code);
     }
 
-    public function show(PageRequest $request){
-        $article = $request->get('article_data');
+    public function show(PageRequest $request, $id = null){
+        $article = Article::find($id);
+
+        if(!$article){
+            $this->response['status'] = FALSE;
+            $this->response['status_code'] = "ARTICLE_NOT_FOUND";
+            $this->response['msg'] = "Article not found!";
+            $this->response_code = 404;
+
+            goto callback;
+        }
 
         $this->response['status'] = TRUE;
         $this->response['status_code'] = "ARTICLE_DETAIL";
@@ -64,24 +72,24 @@ class ArticleController extends Controller
     }
 
     public function store(ArticleRequest $request){
-        $auth = $request->user($this->guard);
+        // $auth = $request->user($this->guard);
 
         DB::beginTransaction();
         try{
 
             $article = new Article;
-            $article->user_id = $auth->id;
+            // $article->user_id = $auth->id;
             $article->name = $request->input('name');
             $article->description = $request->input('description');
 
-            if ($request->hasFile('image')) {
-                $image = ImageUploader::uploadAutoResize($request->file('image'), "uploads/articles/images");
+            // if ($request->hasFile('image')) {
+            //     $image = ImageUploader::uploadAutoResize($request->file('image'), "uploads/articles/images");
 
-                $article->path = $image['path'];
-                $article->directory = $image['directory'];
-                $article->filename = $image['filename'];
-                $article->source = $image['source'];
-            }
+            //     $article->path = $image['path'];
+            //     $article->directory = $image['directory'];
+            //     $article->filename = $image['filename'];
+            //     $article->source = $image['source'];
+            // }
 
             $article->save();
 
@@ -106,25 +114,25 @@ class ArticleController extends Controller
         return response()->json($this->api_response($this->response), $this->response_code);
     }
 
-    public function update(ArticleRequest $request){
-        $auth = $request->user($this->guard);
-        $article = $request->get('article_data');
+    public function update(ArticleRequest $request, $id = null){
+        // $auth = $request->user($this->guard);
+        $article = Article::find($id);
 
         DB::beginTransaction();
         try{
 
-            $article->user_id = $auth->id;
+            // $article->user_id = $auth->id;
             $article->name = $request->input('name');
             $article->description = $request->input('description');
 
-            if ($request->hasFile('image')) {
-                $image = ImageUploader::uploadAutoResize($request->file('image'), "uploads/articles/images");
+            // if ($request->hasFile('image')) {
+            //     $image = ImageUploader::uploadAutoResize($request->file('image'), "uploads/articles/images");
 
-                $article->path = $image['path'];
-                $article->directory = $image['directory'];
-                $article->filename = $image['filename'];
-                $article->source = $image['source'];
-            }
+            //     $article->path = $image['path'];
+            //     $article->directory = $image['directory'];
+            //     $article->filename = $image['filename'];
+            //     $article->source = $image['source'];
+            // }
 
             $article->save();
 
@@ -150,8 +158,9 @@ class ArticleController extends Controller
         return response()->json($this->api_response($this->response), $this->response_code);
     }
 
-    public function destroy(PageRequest $request){
-        $article = $request->get('article_data');
+    public function destroy(PageRequest $request, $id = null){
+        // $article = $request->get('article_data');
+        $article = Article::find($id);
 
         DB::beginTransaction();
         try{
@@ -162,6 +171,44 @@ class ArticleController extends Controller
             $this->response['status'] = TRUE;
             $this->response['status_code'] = "ARTICLE_DELETED";
             $this->response['msg'] = "Article was successfully deleted.";
+            $this->response_code = 200;
+        }catch(\Exception $e){
+            DB::rollback();
+
+            Log::info("ERROR: ", array($e));
+
+            $this->response['status'] = FALSE;
+            $this->response['status_code'] = "SERVER_ERROR";
+            $this->response['msg'] = "Server Error: Code #{$e->getMessage()}";
+            $this->response_code = 500;
+        }
+
+        callback:
+        return response()->json($this->api_response($this->response), $this->response_code);
+    }
+
+    public function restore(PageRequest $request, $id = null){
+        // $article = $request->get('article_data');
+        $article = Article::withTrashed()->find($id);
+
+        if(!$article){
+            $this->response['status'] = FALSE;
+            $this->response['status_code'] = "ARTICLE_NOT_FOUND";
+            $this->response['msg'] = "Article not found!";
+            $this->response_code = 404;
+
+            goto callback;
+        }
+
+        DB::beginTransaction();
+        try{
+            $article->restore();
+
+            DB::commit();
+
+            $this->response['status'] = TRUE;
+            $this->response['status_code'] = "ARTICLE_RESTORED";
+            $this->response['msg'] = "Article was successfully restored.";
             $this->response_code = 200;
         }catch(\Exception $e){
             DB::rollback();

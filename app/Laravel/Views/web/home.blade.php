@@ -7,37 +7,43 @@
         <div class="row align-items-center g-5">
 
             <div class="col-lg-6">
-                <span class="section-label">
-                    WELCOME TO AMS - Article and Media Site
-                </span>
 
-                <h1 class="hero-title editorial-heading mt-3">
-                    Lorem
-                    <span class="text-accent">Ipsum.</span>
+                <span class="section-label">{!! ($home_settings['hero']['label'] ?? '') ?: $default['hero']['label'] !!}</span>
+
+                <h1 class="hero-title editorial-heading mt-3 d-flex align-items center gap-2">
+                    {!! ($home_settings['hero']['title'] ?? '') ?: $default['hero']['title'] !!}
+                    <span class="text-accent">{!! ($home_settings['hero']['accent'] ?? '') ?: $default['hero']['accent'] !!}</span>
                 </h1>
 
-                <p class="hero-description mt-4">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl eget ultricies tincidunt, nunc nisl aliquam nisl, eget ultricies nunc nisl eget nunc.
+                <p class="hero-description ">
+                    {!! ($home_settings['hero']['description'] ?? '') ?: $default['hero']['description'] !!}
                 </p>
 
                 <div class="d-flex flex-wrap gap-3 mt-4">
+
                     <a href="{{ route('web.articles') }}"
-                       class="btn btn-dark btn-lg">
-                        Explore Articles
+                    class="btn btn-dark btn-lg">
+                        Explore Aricles
                         <span class="ms-2">&rarr;</span>
                     </a>
 
                     <a href="{{ route('web.about') }}"
-                       class="btn btn-outline-dark btn-lg">
+                    class="btn btn-outline-dark btn-lg">
                         About Us
                     </a>
+
                 </div>
 
-                <div class="hero-note mt-5">
-                    <span class="hero-note-line"></span>
-                    <span>READ. LEARN. GROW.</span>
+                <div class="hero-note mt-3">
+
+                    <span class="hero-note-line"><hr></span>
+
+                    <span>{!! ($home_settings['hero']['note'] ?? '') ?: $default['hero']['note'] !!}</span>
+
                 </div>
+
             </div>
+
 
             <div class="col-lg-6">
                 <div class="hero-image-wrapper">
@@ -49,7 +55,7 @@
                     >
 
                     <div class="hero-image-caption">
-                        <span>FEATURED STORY</span>
+                        <span>{!! ($home_settings['featured']['label'] ?? '') ?: $default['featured']['label'] !!}</span>
                         <h5>
                             {{ $articles[0]['title'] }}
                         </h5>
@@ -67,9 +73,11 @@
 
         <div class="section-header mb-4">
             <div>
-                <span class="section-label">EDITOR'S PICK</span>
+                <span class="section-label">
+                    {!! ($home_settings['featured']['label'] ?? '') ?: $default['featured']['label'] !!}
+                </span>
                 <h2 class="editorial-heading section-title mt-2">
-                    Featured Story
+                    {!! ($home_settings['featured']['title'] ?? '') ?: $default['featured']['title'] !!}
                 </h2>
             </div>
         </div>
@@ -127,14 +135,16 @@
                     justify-content-between align-items-md-end mb-5">
 
             <div>
-                <span class="section-label">FRESH FROM THE BLOG</span>
+                <span class="section-label">
+                    {!! ($home_settings['latest']['label'] ?? '') ?: $default['latest']['label'] !!}
+                </span>
 
                 <h2 class="editorial-heading section-title mt-2">
-                    Latest Stories
+                    {!! ($home_settings['latest']['title'] ?? '') ?: $default['latest']['title'] !!}
                 </h2>
 
                 <p class="section-description mb-0">
-                    Explore our latest articles and discoveries.
+                    {!! ($home_settings['latest']['description'] ?? '') ?: $default['latest']['description'] !!}
                 </p>
             </div>
 
@@ -209,17 +219,15 @@
         <div class="newsletter-content text-center">
 
             <span class="section-label">
-                STAY CONNECTED
+                {!! ($home_settings['newsletter']['label'] ?? '') ?: $default['newsletter']['label'] !!}
             </span>
 
             <h2 class="editorial-heading mt-3">
-                A Little Inspiration,
-                <span class="text-accent">Delivered.</span>
+                {!! ($home_settings['newsletter']['title'] ?? '') ?: $default['newsletter']['title'] !!}
             </h2>
 
             <p class="newsletter-description mt-3">
-                Discover fresh perspectives and meaningful
-                stories whenever you visit.
+                {!! ($home_settings['newsletter']['description'] ?? '') ?: $default['newsletter']['description'] !!}
             </p>
 
             <a href="{{ route('web.articles') }}"
