@@ -17,7 +17,7 @@ class ArticleTransformer extends TransformerAbstract{
             'description' => $article->description ?: "",
             'date_created' => $this->date_response($article->created_at),
             'date_modified' => $this->date_response($article->updated_at),
-            'image' => $this->image_response($article->directory,$article->filename)
+            // 'image' => $this->image_response($article->directory,$article->filename)
         ];
     }
 }

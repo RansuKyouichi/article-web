@@ -10,9 +10,55 @@ class MainController extends Controller{
 
     }
 
-    public function index(PageRequest $request){
+    public function index(PageRequest $request)
+    {
         $this->data['page_title'] = 'Home | AMS';
         $this->data['articles'] = $this->getArticles();
+
+        $default = [
+            'hero' => [
+                'label' => 'WELCOME TO AMS - Article and Media Site',
+                'title' => 'Lorem',
+                'accent' => 'Ipsum.',
+                'description' => 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vel consectetur nobis nisi. Delectus facere dolorum aperiam necessitatibus corporis minus dignissimos nobis officia ad! Necessitatibus delectus, unde eum blanditiis ea animi.',
+                'primary_button' => 'Explore Articles',
+                'secondary_button' => 'About Us',
+                'note' => 'READ. LEARN. GROW.',
+            ],
+
+            'featured' => [
+                'label' => "EDITOR'S PICK",
+                'title' => 'Featured Story',
+            ],
+
+            'latest' => [
+                'label' => 'FRESH FROM THE BLOG',
+                'title' => 'Latest Stories',
+                'description' => 'Explore our latest articles and discoveries.',
+                'view_all_button' => 'View All Articles',
+            ],
+
+            'newsletter' => [
+                'label' => 'STAY CONNECTED',
+                'title' => 'A Little Inspiration, Delivered.',
+                'accent' => 'Delivered.',
+                'description' => 'Discover fresh perspectives and meaningful stories whenever you visit.',
+                'button' => 'Start Reading',
+            ],
+        ];
+
+        $this->data['default'] = $default;
+
+        $user = auth('web')->user();
+
+        $cms_home = $user
+            ? $user->cms()->where('code', 'home')->first()
+            : null;
+
+        $this->data['home_settings'] = $cms_home && $cms_home->content
+            ? json_decode($cms_home->content, true)
+            : [];
+
         return view('web.home', $this->data);
     }
 

@@ -17,18 +17,19 @@ Route::group(['as' => "api.",
         Route::post('check-login','AuthenticationController@check_login')->name('check_login')->middleware(["api.auth"]);
     });
 
-    Route::group(['middleware' => "api.auth"],function(){
-        Route::group(['prefix' => "profile",'as' => 'profile.'],function(){
-            Route::post('info','ProfileController@show')->name('info');
-        });
+    // Route::group(['middleware' => "api.auth"],function(){
+    //     Route::group(['prefix' => "profile",'as' => 'profile.'],function(){
+    //         Route::post('info','ProfileController@show')->name('info');
+    //     });
 
         Route::group(['prefix' => "articles",'as' => 'article.'],function(){
-            Route::post('/','ArticleController@index')->name('index');
-            Route::post('info','ArticleController@show')->name('info')->middleware(["api.exist:article", "api.exist:own_article"]);
-            Route::post('create','ArticleController@store')->name('create');
-            Route::post('edit','ArticleController@update')->name('edit')->middleware(["api.exist:article", "api.exist:own_article"]);
-            Route::post('delete','ArticleController@destroy')->name('delete')->middleware(["api.exist:article", "api.exist:own_article"]);
+            Route::post('/',['as' => 'index', 'uses' => 'ArticleController@index']);
+            Route::post('info/{id?}', ['as' => 'info', 'uses' => 'ArticleController@show']);//->middleware(["api.exist:article", "api.exist:own_article"]);
+            Route::post('create',['as' => 'create','uses' => 'ArticleController@store']);
+            Route::post('edit/{id?}',['as' => 'edit', 'uses' => 'ArticleController@update']);//->middleware(["api.exist:article", "api.exist:own_article"]);
+            Route::post('delete/{id?}',['as' => 'delete',  'uses' => 'ArticleController@destroy']);//->middleware(["api.exist:article", "api.exist:own_article"]);
+            Route::post('restore/{id?}',['as' => 'restore',  'uses' => 'ArticleController@restore']);
         });
-    });
+    // });
 
 });

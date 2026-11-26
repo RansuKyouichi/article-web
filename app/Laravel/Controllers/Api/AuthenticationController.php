@@ -44,7 +44,8 @@ class AuthenticationController extends Controller
 
             $user = new User();
             $user->email = strtolower($request->input('email'));
-            $user->name = strtoupper($request->input('name'));
+            $user->first_name = strtoupper($request->input('first_name'));
+            $user->last_name = strtoupper($request->input('last_name'));
             $user->password = bcrypt($request->input('password'));
             $user->save();
 
@@ -87,7 +88,7 @@ class AuthenticationController extends Controller
 
         $this->response['status'] = TRUE;
         $this->response['status_code'] = "LOGIN_SUCCESS";
-        $this->response['msg'] = "Hi {$user->name}!";
+        $this->response['msg'] = "Hi {$user->first_name}!";
         $this->response['token'] = $token;
         $this->response['token_type'] = "Bearer";
         $this->response['data'] = $this->transformer->transform($user, new UserTransformer,'item');
@@ -122,7 +123,7 @@ class AuthenticationController extends Controller
 
         $this->response['status'] = TRUE;
         $this->response['status_code'] = "LOGIN_SUCCESS";
-        $this->response['msg'] = "Welcome {$user->name}!";
+        $this->response['msg'] = "Welcome {$user->first_name}!";
         $this->response['data'] = $this->transformer->transform($user,new UserTransformer,'item');
 
         $this->response_code = 200;
