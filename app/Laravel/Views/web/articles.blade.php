@@ -73,7 +73,7 @@
 
                             <div class="article-image-wrapper">
                                 <img
-                                    src="{{ asset('storage/' . $article['image']) }}"
+                                    src="{{ $article['image'] }}"
                                     alt="{{ $article['title'] }}"
                                     class="article-image"
                                     loading="lazy"

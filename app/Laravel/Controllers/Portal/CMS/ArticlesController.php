@@ -3,62 +3,183 @@
 namespace App\Laravel\Controllers\Portal\CMS;
 
 use App\Laravel\Controllers\Portal\Controller;
-
-use App\Laravel\Models\User;
-
+use App\Laravel\Models\Article;
+use App\Laravel\Services\ImageUploader;
 use App\Laravel\Requests\PageRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
-use App\Laravel\Models\CMS;
-use App\Laravel\Requests\Portal\CMSRequest;
-
-use DB;
-
-class ArticlesController extends Controller{
-    
-    public function __construct()
+class ArticlesController extends Controller
+{
+    public function index(PageRequest $request)
     {
-
-    }
-
-    public function index(PageRequest $request){
         $user = auth('web')->user();
-        $this->data['page'] = $user->cms()->firstOrNew(['code' => 'articles']);
 
+        $this->data['articles'] = Article::where('user_id', $user->id)
+            ->latest()
+            ->get();
 
+        $this->data['deleted_articles'] = Article::onlyTrashed()
+            ->where('user_id', $user->id)
+            ->latest('deleted_at')
+            ->get();
+
+        $this->data['editing_article'] = null;
         $this->data['page_title'] = 'CMS Articles | AMS User Portal';
+
         return view('portal.cms.articles', $this->data);
     }
 
-    public function store(CMSRequest $request)
+    public function store(Request $request)
     {
+        $validated = $request->validate([
+            'name' => 'required|string|min:2|max:255',
+            'description' => 'required|string|min:2',
+            'image' => 'required|image|mimes:jpeg,jpg,png|max:5000',
+        ]);
+
         DB::beginTransaction();
 
         try {
             $user = auth('web')->user();
 
-            $cms = $user->cms()->firstOrNew(['code' => 'articles']);
+            $article = new Article();
+            $article->user_id = $user->id;
+            $article->name = $validated['name'];
+            $article->description = $validated['description'];
 
-            $cms->title = $request->input('title');
-            $cms->content = $request->input('content');
-            $cms->save();
+            if ($request->hasFile('image')) {
+                $image = ImageUploader::uploadAutoResize(
+                    $request->file('image'),
+                    'uploads/articles/images'
+                );
+
+                $article->path = $image['path'];
+                $article->directory = $image['directory'];
+                $article->filename = $image['filename'];
+                $article->source = $image['source'];
+            }
+
+            $article->save();
 
             DB::commit();
 
-            session()->flash('notification-status', "success");
-            session()->flash('notification-msg', "Successfully saved CMS content.");
-
-            return redirect()->back();
+            return redirect()
+                ->route('portal.cms.articles')
+                ->with('notification-status', 'success')
+                ->with('notification-msg', 'Article successfully created.');
 
         } catch (\Exception $e) {
-            DB::rollback();
+            DB::rollBack();
 
-            session()->flash('notification-status', "failed");
-            session()->flash('notification-msg', "Server failed. Please try again later.");
-
-            return redirect()->back();
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('notification-status', 'failed')
+                ->with('notification-msg', 'Failed to create article.');
         }
     }
 
+    public function edit(PageRequest $request, $id)
+    {
+        $user = auth('web')->user();
 
+        $this->data['articles'] = Article::where('user_id', $user->id)
+            ->latest()
+            ->get();
+
+        $this->data['deleted_articles'] = Article::onlyTrashed()
+            ->where('user_id', $user->id)
+            ->latest('deleted_at')
+            ->get();
+
+        $this->data['editing_article'] = Article::where('user_id', $user->id)
+            ->findOrFail($id);
+
+        $this->data['page_title'] = 'Edit Article | AMS User Portal';
+
+        return view('portal.cms.articles', $this->data);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $user = auth('web')->user();
+
+        $article = Article::where('user_id', $user->id)
+            ->findOrFail($id);
+
+        $validated = $request->validate([
+            'name' => 'required|string|min:2|max:255',
+            'description' => 'required|string|min:2',
+            'image' => 'nullable|image|mimes:jpeg,jpg,png|max:5000',
+        ]);
+
+        DB::beginTransaction();
+
+        try {
+            $article->name = $validated['name'];
+            $article->description = $validated['description'];
+
+            if ($request->hasFile('image')) {
+                $image = ImageUploader::uploadAutoResize(
+                    $request->file('image'),
+                    'uploads/articles/images'
+                );
+
+                $article->path = $image['path'];
+                $article->directory = $image['directory'];
+                $article->filename = $image['filename'];
+                $article->source = $image['source'];
+            }
+
+            $article->save();
+
+            DB::commit();
+
+            return redirect()
+                ->route('portal.cms.articles')
+                ->with('notification-status', 'success')
+                ->with('notification-msg', 'Article successfully updated.');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('notification-status', 'failed')
+                ->with('notification-msg', 'Failed to update article.');
+        }
+    }
+
+    public function destroy(Request $request, $id)
+    {
+        $user = auth('web')->user();
+
+        $article = Article::where('user_id', $user->id)
+            ->findOrFail($id);
+
+        $article->delete();
+
+        return redirect()
+            ->route('portal.cms.articles')
+            ->with('notification-status', 'success')
+            ->with('notification-msg', 'Article moved to deleted articles.');
+    }
+
+    public function restore(Request $request, $id)
+    {
+        $user = auth('web')->user();
+
+        $article = Article::onlyTrashed()
+            ->where('user_id', $user->id)
+            ->findOrFail($id);
+
+        $article->restore();
+
+        return redirect()
+            ->route('portal.cms.articles')
+            ->with('notification-status', 'success')
+            ->with('notification-msg', 'Article successfully restored.');
+    }
 }
