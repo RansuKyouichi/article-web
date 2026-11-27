@@ -48,5 +48,10 @@ class Article extends Model{
         return $this->belongsTo('App\Laravel\Models\User', 'user_id','id');
     }
 
+    protected $casts = [
+        'is_featured' => 'boolean',
+        'is_editor_pick' => 'boolean',
+    ];
+
 
 }

@@ -141,6 +141,11 @@
 
                                 <div class="col-md-6">
                                     <h5 class="mb-2">{{ $article->name }}</h5>
+
+                                    <div class="mb-2">
+                                        <p>{!! $article->description !!}</p>
+                                    </div>
+
                                     <p class="text-muted small mb-2">
                                         Created: {{ $article->created_at?->format('M d, Y') }}
                                     </p>
@@ -195,7 +200,12 @@
                                 </div>
 
                                 <div class="col-md-6">
-                                    <h5 class="mb-2">{{ $article->name }}</h5>
+                                    <h5 class="mb-2">{!! $article->name !!}</h5>
+
+                                    <div class="mb-2">
+                                        <p>{!! $article->description !!}</p>
+                                    </div>
+                                    
                                     <p class="text-muted small mb-0">
                                         Deleted: {{ $article->deleted_at?->format('M d, Y') }}
                                     </p>
