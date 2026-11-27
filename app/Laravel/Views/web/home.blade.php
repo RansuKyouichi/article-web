@@ -157,7 +157,7 @@
 
         <div class="row g-4">
 
-            @foreach(array_slice($articles, 1, 3) as $article) 
+            @foreach(array_slice($articles, 0, 3) as $article) 
 
                 <div class="col-md-6 col-lg-4">
 

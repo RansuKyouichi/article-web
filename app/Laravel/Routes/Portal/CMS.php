@@ -66,4 +66,14 @@ Route::group([
         'uses' => 'CMS\ContactController@store'
     ]);
 
+    // Route::post('articles/featured/{id}', [
+    //     'as' => 'articles.featured',
+    //     'uses' => 'CMS\ArticlesController@toggleFeatured'
+    // ]);
+
+    // Route::post('articles/editor-pick/{id}', [
+    //     'as' => 'articles.editor-pick',
+    //     'uses' => 'CMS\ArticlesController@toggleEditorPick'
+    // ]);
+
 });

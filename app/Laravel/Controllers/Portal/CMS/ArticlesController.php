@@ -182,4 +182,40 @@ class ArticlesController extends Controller
             ->with('notification-status', 'success')
             ->with('notification-msg', 'Article successfully restored.');
     }
+
+    // public function toggleFeatured(PageRequest $request, $id)
+    // {
+    //     $user = auth('web')->user();
+
+    //     $article = Article::where('user_id', $user->id)
+    //         ->findOrFail($id);
+
+    //     $article->is_featured = !$article->is_featured;
+    //     $article->save();
+
+    //     session()->flash('notification-status', 'success');
+    //     session()->flash('notification-msg', $article->is_featured
+    //         ? 'Article added to Featured.'
+    //         : 'Article removed from Featured.');
+
+    //     return redirect()->back();
+    // }
+
+    // public function toggleEditorPick(PageRequest $request, $id)
+    // {
+    //     $user = auth('web')->user();
+
+    //     $article = Article::where('user_id', $user->id)
+    //         ->findOrFail($id);
+
+    //     $article->is_editor_pick = !$article->is_editor_pick;
+    //     $article->save();
+
+    //     session()->flash('notification-status', 'success');
+    //     session()->flash('notification-msg', $article->is_editor_pick
+    //         ? 'Article added to Editor\'s Choice.'
+    //         : 'Article removed from Editor\'s Choice.');
+
+    //     return redirect()->back();
+    // }
 }

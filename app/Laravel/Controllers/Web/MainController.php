@@ -178,22 +178,30 @@ class MainController extends Controller{
 
     public function getArticles()
     {
-        return Article::latest()
-            ->get()
-            ->map(function ($article) {
-                return [
-                    'id' => $article->id,
-                    'category' => 'Article',
-                    'title' => $article->name,
-                    'excerpt' => Str::limit(strip_tags($article->description), 150),
-                    'author' => 'AMS',
-                    'date' => $article->created_at?->format('F d, Y'),
-                    'image' => $article->filename
-                        ? rtrim($article->directory, '/') . '/thumbnails/' . $article->filename
-                        : null,
-                ];
-            })
-            ->toArray();
-    }
+        $user = auth('web')->user();
 
+        $articles = Article::query()
+            ->when($user, function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            })
+            ->latest()
+            ->get();
+
+        return $articles->map(function ($article) {
+            return [
+                'id' => $article->id,
+                'category' => 'Article',
+                'title' => $article->name,
+                'excerpt' => Str::limit(strip_tags($article->description), 150),
+                'author' => 'AMS',
+                'date' => $article->created_at?->format('F d, Y'),
+                'image' => $article->filename
+                    ? rtrim($article->directory, '/') . '/thumbnails/' . $article->filename
+                    : asset('assets/img/books-library.jpg'),
+                'description' => $article->description,
+                // 'is_featured' => (bool) $article->is_featured,
+                // 'is_editor_pick' => (bool) $article->is_editor_pick,
+            ];
+        })->toArray();
+    }
 }
