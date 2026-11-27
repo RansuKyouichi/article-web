@@ -6,8 +6,7 @@
 <section class="article-detail">
     <div class="container">
         <div class="article-detail-container">
-            <a href="{{ route('web.articles') }}"
-               class="back-articles">
+            <a href="{{ route('web.articles') }}" class="back-articles">
                 &larr; Back to Articles
             </a>
 
@@ -26,36 +25,32 @@
                     {{ $article['date'] }}
                 </p>
 
-                <img
-                    src="{{ $article['image'] }}"
-                    alt="{{ $article['title'] }}"
-                    class="article-detail-image"
-                >
+                @if($article['image'])
+                    <img
+                        src="{{ $article['image'] }}"
+                        alt="{{ $article['title'] }}"
+                        class="article-detail-image"
+                    >
+                @endif
 
                 <div class="article-detail-content">
-                    <p>
-                        {{ $article['excerpt'] }}
-                    </p>
+                    {!! $article['content'] !!}
                 </div>
             </div>
 
             <hr class="my-5">
 
-            <a href="{{ route('web.articles') }}"
-               class="back-articles">
+            <a href="{{ route('web.articles') }}" class="back-articles">
                 &larr; Explore More Articles
             </a>
-            
         </div>
     </div>
-
 </section>
 
 @endsection
 
 @section('page-styles')
 <style>
-
 .article-detail-container {
     max-width: 850px;
     margin: auto;
@@ -85,10 +80,42 @@
     color: var(--primary-color);
     font-size: 1.05rem;
     line-height: 2;
+    overflow-wrap: break-word;
+}
+
+.article-detail-content h1,
+.article-detail-content h2,
+.article-detail-content h3,
+.article-detail-content h4 {
+    line-height: 1.4;
+    margin: 1.5rem 0 1rem;
 }
 
 .article-detail-content p {
     margin-bottom: 25px;
+}
+
+.article-detail-content ul,
+.article-detail-content ol {
+    padding-left: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.article-detail-content img {
+    max-width: 100%;
+    height: auto;
+}
+
+.article-detail-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1.5rem;
+}
+
+.article-detail-content th,
+.article-detail-content td {
+    border: 1px solid #dee2e6;
+    padding: 0.75rem;
 }
 
 .back-articles {
@@ -102,6 +129,5 @@
         height: 280px;
     }
 }
-
 </style>
 @endsection

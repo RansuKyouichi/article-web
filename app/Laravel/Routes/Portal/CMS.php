@@ -32,8 +32,28 @@ Route::group([
     ]);
 
     Route::post('articles', [
-        'as' => 'store',
+        'as' => 'articles.store',
         'uses' => 'CMS\ArticlesController@store'
+    ]);
+
+    Route::get('articles/edit/{id}', [
+        'as' => 'articles.edit',
+        'uses' => 'CMS\ArticlesController@edit'
+    ]);
+
+    Route::post('articles/edit/{id}', [
+        'as' => 'articles.update',
+        'uses' => 'CMS\ArticlesController@update'
+    ]);
+
+    Route::post('articles/delete/{id}', [
+        'as' => 'articles.destroy',
+        'uses' => 'CMS\ArticlesController@destroy'
+    ]);
+
+    Route::post('articles/restore/{id}', [
+        'as' => 'articles.restore',
+        'uses' => 'CMS\ArticlesController@restore'
     ]);
 
     Route::get('contact', [
@@ -42,7 +62,7 @@ Route::group([
     ]);
 
     Route::post('contact', [
-        'as' => 'store',
+        'as' => 'contact.store',
         'uses' => 'CMS\ContactController@store'
     ]);
 
